@@ -25,20 +25,23 @@ import java.util.Random;
 public class LoveAnimator extends RelativeLayout {
 
   private Context mContext;
-  float[] num = {-30, -20, 0, 20, 30}; // 随机心形图片的角度
+  final float[] num = {-30, -20, 0, 20, 30}; // 随机心形图片的角度
 
   public LoveAnimator(Context context) {
-    super(context);
-    initView(context);
+    this(context, null);
   }
 
   public LoveAnimator(Context context, AttributeSet attrs) {
-    super(context, attrs);
-    initView(context);
+    this(context, attrs, 0);
   }
 
   public LoveAnimator(Context context, AttributeSet attrs, int defStyleAttr) {
-    super(context, attrs, defStyleAttr);
+    this(context, attrs, defStyleAttr, 0);
+  }
+
+  @SuppressLint("NewApi")
+  public LoveAnimator(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    super(context, attrs, defStyleAttr, defStyleRes);
     initView(context);
   }
 
