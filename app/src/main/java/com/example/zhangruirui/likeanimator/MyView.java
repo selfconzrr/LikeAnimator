@@ -16,18 +16,25 @@ import android.view.View;
  */
 public class MyView extends View {
 
-  public MyView(Context context) {
-    super(context);
-  }
+    private Paint mPaint;
 
-  public MyView(Context context, @Nullable AttributeSet attrs) {
-    super(context, attrs);
-  }
+    public MyView(Context context) {
+        super(context);
+    }
 
-  @Override
-  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    Log.e("zhangrr", "onMeasure() called with: measureHeight = [" + getMeasuredHeight() + " height = " + getHeight());
+    public MyView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+        init();
+    }
+
+    private void init() {
+        mPaint = new Paint();
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        Log.e("zhangrr", "onMeasure() called with: measureHeight = [" + getMeasuredHeight() + " height = " + getHeight());
 //    int width = getMySize(100, widthMeasureSpec);
 //    int height = getMySize(100, heightMeasureSpec);
 //
@@ -38,52 +45,49 @@ public class MyView extends View {
 //    }
 //
 //    setMeasuredDimension(width, height);
-  }
-
-  @Override
-  protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-    super.onLayout(changed, left, top, right, bottom);
-    Log.e("zhangrr", "onLayout() called with: measureHeight = [" + getMeasuredHeight() + " height = " + getHeight());
-  }
-
-  @Override
-  protected void onDraw(Canvas canvas) {
-    // 调用父 View 的 onDraw 函数，因为 View 这个类帮我们实现了一些
-    // 基本的绘制功能，比如绘制背景颜色、背景图片等
-    super.onDraw(canvas);
-
-    int r = getMeasuredWidth() / 2;
-    // 圆心的横坐标为当前的 View 的左边起始位置+半径
-    int centerX = getLeft() + r;
-    // 圆心的纵坐标为当前的 View 的顶部起始位置+半径
-    int centerY = getTop() + r;
-
-    Paint paint = new Paint();
-    paint.setColor(Color.GREEN);
-    canvas.drawCircle(centerX, centerY, r, paint);
-  }
-
-  private int getMySize(int defaultSize, int measureSpec) {
-    int mySize = defaultSize;
-
-    int mode = MeasureSpec.getMode(measureSpec);
-    int size = MeasureSpec.getSize(measureSpec);
-
-    switch (mode) {
-      case MeasureSpec.UNSPECIFIED: { // 如果没有指定大小，就设置为默认大小
-        mySize = defaultSize;
-        break;
-      }
-      case MeasureSpec.AT_MOST: { // 如果测量模式是最大取值为 size
-        // 我们将大小取最大值,你也可以取其他值
-        mySize = size;
-        break;
-      }
-      case MeasureSpec.EXACTLY: { // 如果是固定的大小，那就不要去改变它
-        mySize = size;
-        break;
-      }
     }
-    return mySize;
-  }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        // 调用父 View 的 onDraw 函数，因为 View 这个类帮我们实现了一些
+        // 基本的绘制功能，比如绘制背景颜色、背景图片等
+        super.onDraw(canvas);
+
+        int r = getMeasuredWidth() / 2;
+        // 这里的圆心是应该是指相对画布 Canvas 的位置，不需要获取在父布局中的位置
+        int centerX = r;
+        int centerY = r;
+
+        mPaint.setColor(Color.GREEN);
+        canvas.drawCircle(centerX, centerY, r, mPaint);
+    }
+
+    private int getMySize(int defaultSize, int measureSpec) {
+        int mySize = defaultSize;
+
+        int mode = MeasureSpec.getMode(measureSpec);
+        int size = MeasureSpec.getSize(measureSpec);
+
+        switch (mode) {
+            case MeasureSpec.UNSPECIFIED: { // 如果没有指定大小，就设置为默认大小
+                mySize = defaultSize;
+                break;
+            }
+            case MeasureSpec.AT_MOST: { // 如果测量模式是最大取值为 size
+                // 我们将大小取最大值,你也可以取其他值
+                mySize = size;
+                break;
+            }
+            case MeasureSpec.EXACTLY: { // 如果是固定的大小，那就不要去改变它
+                mySize = defaultSize;
+                break;
+            }
+        }
+        return mySize;
+    }
 }
