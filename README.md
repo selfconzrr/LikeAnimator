@@ -5,4 +5,4 @@
 
 # 效果预览
 
-![image](https://github.com/extremehappylife/UIComponents/raw/master/app/src/main/res/drawable/gifhome_320x685_4s.gif)
+![image](https://github.com/selfconzrr/LikeAnimator/blob/master/gifhome_320x693_5s.gif)
